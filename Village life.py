@@ -17,30 +17,18 @@ Water = 0
 Sword = 0
 Sheild = 0
 ChainM = 0
-Attack = 3
+Attack = 5
 Armour = 0
 Inv = Leather + Apple + Bread + Meat + Ale + Wood
 Tinv = TMeat + Ale
-CraftPower = 0
-SleepHeal = 0
+CraftPower = 4
+SleepHeal = 1
 temp="Sleep, restore", SleepHeal,"HP"
 STATS = "Gold: ",Money,", Max HP: ",Max_HP,", HP: ",HP,", Leather: ",Leather,", Apple: ",Apple,", Bread: ",Bread,", Meat: ",Meat,", Wood: ",Wood,", Water pouches: ",watrP,", water: ",Water,", Attack damage: ",Attack,", Defence: ",Armour,", Inventory space left: ",30 - Inv
-print("Choose a house (you have 15,000 gold)")
-State = 0
-
-LucaHP = 1
-def Example(foodHP):
-    print ("FoodHP = ", foodHP);
-    global LucaHP
-    LucaHP += foodHP
-    if (LucaHP > 100):
-        LucaHP = 100
-    print("LucaHP = ", LucaHP)
-    
-
-def EatApple():
-    print("You eat a napple");
-    Example(5)
+print("Welcome to Village Life v.A1.0!")
+print("The game is still in development, but so far you can do basic things like eat, buy things and craft.")
+print("Enjoy!")
+State = 1
 
 def Leave(event):
     global State
@@ -166,50 +154,7 @@ def DestroyAllM():
     Ale = 0
     TMeat = 0
     leave.pack_forget()
-def onClickHouse1(event):
-    global CraftPower
-    global SleepHeal
-    global Money
-    global BcastAlt
-    CraftPower = 9
-    SleepHeal = 2
-    Money = Money - 5000
-    DestroyAllH()
-    ChangeState(1)
-    RunGame()
-def onClickHouse2(event):
-    global CraftPower
-    global SleepHeal
-    global Money
-    global BcastAlt
-    CraftPower = 16
-    SleepHeal = 4
-    Money = Money - 6000
-    DestroyAllH()
-    ChangeState(1)
-    RunGame()
-def onClickHouse3(event):
-    global CraftPower
-    global SleepHeal
-    global Money
-    global BcastAlt
-    CraftPower = 4
-    SleepHeal = 1
-    Money = Money - 3000
-    DestroyAllH()
-    ChangeState(1)
-    RunGame()
-def onClickHouse4(event):
-    global CraftPower
-    global SleepHeal
-    global Money
-    global BcastAlt
-    CraftPower = 25
-    SleepHeal = 7
-    Money = Money - 11000
-    DestroyAllH()
-    ChangeState(1)
-    RunGame()
+
 def onClickShop(event):
     DestroyAllP()
     print("Where to shop?")
@@ -221,6 +166,7 @@ def onClickTavern(event):
     Tmeat.pack(padx=10, pady=10)
     ale.pack(padx=10, pady=10)
     Tsleep.pack(padx=10, pady=10)
+    consume.pack(padx=10, pady=10)
     leave.pack(padx=10, pady=10)
     RunGame()
 def onClickWell(event):
@@ -249,6 +195,10 @@ def onClickHome(event):
     sleep.pack(padx=10, pady=10)
     leave.pack(padx=10, pady=10)
     consume.pack(padx=10, pady=10)
+    global TMeat
+    global Ale
+    TMeat = 0
+    Ale = 0
     RunGame()
 def onClickBlacksmith(event):
     DestroyAllS()
@@ -437,18 +387,17 @@ def onClickWater(event):
         print("Your water pouch is already full.")
     RunGame()
 def onClickConsume(event):
-    global Bread
     if Apple > 0:
         appleC.pack(padx=10, pady=10)
-    elif Bread > 0:
+    if Bread > 0:
         breadC.pack(padx=10, pady=10)
-    elif Meat > 0:
+    if Meat > 0:
         meatC.pack(padx=10, pady=10)
-    elif TMeat > 0:
+    if TMeat > 0:
         TmeatC.pack(padx=10, pady=10)
-    elif Ale > 0:
+    if Ale > 0:
         aleC.pack(padx=10, pady=10)
-    elif Water > 0:
+    if Water > 0:
         waterC.pack(padx=10, pady=10)
     leave.pack(padx=10, pady=10)
     RunGame()
@@ -501,7 +450,7 @@ def onClickTmeatC(event):
     else:
         HPgain = 10
         TMeat -= 1
-        print("You drank some ale!")
+        print("You ate a side of meat!")
     RunGame()
 def onClickWaterC(event):
     global Water
@@ -512,10 +461,6 @@ def onClickWaterC(event):
         Water -= 1
         print("You drank some water!")
     RunGame()
-House1 = tkinter.Button(Game, text="House 1: 5,000 gold, 9 crafting power", width =70)
-House2 = tkinter.Button(Game, text="House 2: 6,000 gold, 16 crafting power", width =70)
-House3 = tkinter.Button(Game, text="House 3: 3,000 gold, 4 crafting power", width =70)
-House4 = tkinter.Button(Game, text="House 4: 11,000 gold, 25 crafting power", width =70)
 blacksmith = tkinter.Button(Game, text="Blacksmith's shop", width = 40)
 farmer = tkinter.Button(Game, text="Farmer's shop", width = 40)
 wizard = tkinter.Button(Game, text="Wizard's shop", width = 40)
@@ -557,10 +502,6 @@ if State == 1:
     print("Where do you want to go?")
     AddPlaces()
 
-House1.bind("<ButtonRelease-1>", onClickHouse1)
-House2.bind("<ButtonRelease-1>", onClickHouse2)
-House3.bind("<ButtonRelease-1>", onClickHouse3)
-House4.bind("<ButtonRelease-1>", onClickHouse4)
 shop.bind("<ButtonRelease-1>", onClickShop)
 tavern.bind("<ButtonRelease-1>", onClickTavern)
 well.bind("<ButtonRelease-1>", onClickWell)
